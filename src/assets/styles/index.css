@@ -1,0 +1,653 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --principal-background: #f8f8c0;
+    --info-background: #204868;
+    --info-border: #4820f8;
+    --info-container-background: #6080f8;
+    --info-container-border : #a8c0e0;
+    --scrollbar-background : #1c3850;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+    font-family: "Press Start 2P", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+    background-image: url('../images/titleScreen.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app {
+    height: 480px;
+    width: 640px;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border: #b2ee77 6px solid;
+}
+
+/* .title-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    max-width: 500px;
+} */
+
+/* .game-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
+} */
+
+/* .start-button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-button:hover {
+    background-color: #357abD;
+    transform: scale(1.05);
+} */
+
+/* Title screen */
+
+.screen-title{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.screen-title h1{
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.screen-title .info{
+    margin-top:30px;
+    animation: blink 2.5s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+}
+
+/* MenuScreen */
+
+/* Level selection */
+.level-selection-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.level-selection {
+    cursor: pointer;
+    padding: 1rem 2rem;
+    background-color: rgb(192, 186, 186);
+    color: black;
+}
+
+.level-selection:hover {
+    background-color: #a4a6a8;
+    color: white;
+    animation: rotateInverted 2s infinite;
+}
+
+.level-selection:active {
+    background-color: #537699;
+}
+
+.level-selection img:hover {
+    animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+    0%, 50%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-7deg);
+    }
+    75% {
+        transform: rotate(7deg);
+    }
+}
+
+@keyframes rotateInverted {
+    0%, 50%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(2deg);
+    }
+    75% {
+        transform: rotate(-2deg);
+    }
+}
+
+.level-selection h3{
+    text-align: center;
+}
+
+.level-selection-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.level-selection-buttons button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    background-color: rgb(192, 186, 186);
+}
+
+.level-selection-buttons button:hover {
+    background-color: #a4a6a8;
+}
+
+.level-selection-buttons button:active {
+    background-color: #537699;
+}
+
+.level-selection-buttons button img {
+    width: 20px;
+    height: 20px;
+    color: blue;
+}
+/* Battle screen */
+
+.battle-screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.battle-header{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    width: 100%;
+}
+
+.battle-header button{
+    font-size: 0.7rem;
+    text-align: left;
+    padding: 5px;
+    width: fit-content;
+    border: 4px solid transparent;  
+}
+
+.battle-header button:hover{
+    border: 4px solid #43b563;
+}
+
+.battle-header h2{
+    text-align: center;
+}
+
+/* enemy profil */
+
+.enemy-profil{
+    width: 410px;
+    height: 340px;
+    background-color: var(--info-container-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+
+.enemy-profil .info{
+    background-color: var(--info-background);
+    width: 400px;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    height: 310px;
+    overflow-y:scroll;
+    border-radius: 10px;
+    scrollbar-color: var(--info-container-border) var(--scrollbar-background); 
+    scrollbar-width: thin;
+    font-size: 0.7rem;
+}
+
+.enemy-profil h3, .enemy-profil h4, .enemy-profil span{
+    color: #e7e700;
+}
+
+
+.enemy-profil h3{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin: 6px 0;
+}
+
+
+
+.enemy-profil img{
+    margin: 10px auto;
+}
+
+.enemy-profil .weakness{
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+}
+
+.enemy-profil span{
+    text-decoration: underline;
+}
+
+.pixel-corners,
+.pixel-corners--wrapper {
+    clip-path: polygon(0px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px 100%,
+            calc(100% - 10px) 100%,
+            calc(100% - 10px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 10px),
+            100% calc(100% - 10px),
+            100% 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 0px,
+            10px 0px,
+            10px 2px,
+            6px 2px,
+            6px 4px,
+            4px 4px,
+            4px 6px,
+            2px 6px,
+            2px 10px,
+            0px 10px);
+    position: relative;
+}
+
+.pixel-corners {
+    border: 2px solid transparent;
+}
+
+.pixel-corners--wrapper {
+    width: fit-content;
+    height: fit-content;
+}
+
+.pixel-corners--wrapper .pixel-corners {
+    display: block;
+    clip-path: polygon(2px 10px,
+            4px 10px,
+            4px 6px,
+            6px 6px,
+            6px 4px,
+            10px 4px,
+            10px 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 10px),
+            2px calc(100% - 10px));
+}
+
+.pixel-corners::after,
+.pixel-corners--wrapper::after {
+    content: "";
+    position: absolute;
+    clip-path: polygon(0px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px 100%,
+            calc(100% - 10px) 100%,
+            calc(100% - 10px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 10px),
+            100% calc(100% - 10px),
+            100% 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 0px,
+            10px 0px,
+            10px 2px,
+            6px 2px,
+            6px 4px,
+            4px 4px,
+            4px 6px,
+            2px 6px,
+            2px 10px,
+            0px 10px,
+            0px 50%,
+            2px 50%,
+            2px 10px,
+            4px 10px,
+            4px 6px,
+            6px 6px,
+            6px 4px,
+            10px 4px,
+            10px 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px 50%,
+            0px 50%);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #4820f8;
+    display: block;
+    pointer-events: none;
+}
+
+.pixel-corners::after {
+    margin: -2px;
+}
+
+/* battle screen */
+
+.battle-screen header{
+    border: 4px solid black;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.battle-content{
+    width: 100%;
+}
+
+/* enemy profil */
+
+.battle-enemy-profile{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.combat-area .enemy-name{
+    font-size: 0.7rem;
+    text-align: right;
+}
+
+.battle-enemy-profile .stats{
+    margin-top: 20px;
+    border: 3px solid black;
+    height: fit-content;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+/* enemy-profil-container border */
+
+.pixel-corners2,
+.pixel-corners--wrapper2 {
+    clip-path: polygon(0px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px 100%,
+            calc(100% - 10px) 100%,
+            calc(100% - 10px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 10px),
+            100% calc(100% - 10px),
+            100% 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 0px,
+            10px 0px,
+            10px 2px,
+            6px 2px,
+            6px 4px,
+            4px 4px,
+            4px 6px,
+            2px 6px,
+            2px 10px,
+            0px 10px);
+    position: relative;
+}
+
+.pixel-corners2 {
+    border: 2px solid transparent;
+}
+
+.pixel-corners--wrapper2 {
+    width: fit-content;
+    height: fit-content;
+}
+
+.pixel-corners--wrapper2 .pixel-corners2 {
+    display: block;
+    clip-path: polygon(2px 10px,
+            4px 10px,
+            4px 6px,
+            6px 6px,
+            6px 4px,
+            10px 4px,
+            10px 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 10px),
+            2px calc(100% - 10px));
+}
+
+.pixel-corners2::after,
+.pixel-corners--wrapper2::after {
+    content: "";
+    position: absolute;
+    clip-path: polygon(0px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px 100%,
+            calc(100% - 10px) 100%,
+            calc(100% - 10px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 2px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 6px),
+            calc(100% - 2px) calc(100% - 10px),
+            100% calc(100% - 10px),
+            100% 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 0px,
+            10px 0px,
+            10px 2px,
+            6px 2px,
+            6px 4px,
+            4px 4px,
+            4px 6px,
+            2px 6px,
+            2px 10px,
+            0px 10px,
+            0px 50%,
+            2px 50%,
+            2px 10px,
+            4px 10px,
+            4px 6px,
+            6px 6px,
+            6px 4px,
+            10px 4px,
+            10px 2px,
+            calc(100% - 10px) 2px,
+            calc(100% - 10px) 4px,
+            calc(100% - 6px) 4px,
+            calc(100% - 6px) 6px,
+            calc(100% - 4px) 6px,
+            calc(100% - 4px) 10px,
+            calc(100% - 2px) 10px,
+            calc(100% - 2px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 10px),
+            calc(100% - 4px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 4px),
+            calc(100% - 10px) calc(100% - 2px),
+            10px calc(100% - 2px),
+            10px calc(100% - 4px),
+            6px calc(100% - 4px),
+            6px calc(100% - 6px),
+            4px calc(100% - 6px),
+            4px calc(100% - 10px),
+            2px calc(100% - 10px),
+            2px 50%,
+            0px 50%);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #a8c0e0;
+    display: block;
+    pointer-events: none;
+}
+
+.pixel-corners2::after {
+    margin: -2px;
+}

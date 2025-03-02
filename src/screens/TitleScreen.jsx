@@ -1,7 +1,6 @@
-// src/screens/TitleScreen.jsx
 import React, { useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
-import PlayerForm from '../components/PlayerForm';
+import PlayerForm from '../components/player/PlayerForm';
 
 const TitleScreen = ({ onStart }) => {
     const { gameState } = useContext(GameContext);

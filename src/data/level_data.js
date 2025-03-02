@@ -13,13 +13,21 @@ const levelData = [
     },
     {
         level: 2,
-        isCompleted: true,
+        isCompleted: false,
         enemy: "Le grand méchant loup",
+        enemyId: "desorganisateur_chaotique",
+        enemyData: enemyData.desorganisateur_chaotique,
+        devToolId: 'html',
+        devToolData: devToolsData.html,
     },
     {
         level: 3,
         isCompleted: false,
         enemy: "Le dragon",
+        enemyId: "desorganisateur_chaotique",
+        enemyData: enemyData.desorganisateur_chaotique,
+        devToolId: 'html',
+        devToolData: devToolsData.html,
     },
     {
         level: 4,

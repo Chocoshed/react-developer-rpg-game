@@ -1,9 +1,9 @@
-// src/App.jsx
 import React from 'react';
 import { GameProvider } from './contexts/GameContext';
 import ScreenManager from './screens/ScreenManager';
 import DebugButton from './components/DebugButton';
 import './assets/styles/index.css';
+import './assets/styles/battle.css';
 
 const App = () => {
   return (

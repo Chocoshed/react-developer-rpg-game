@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { levelData } from '../data/level_data';
-import Button from './common/Button';
-import notCompletedImage from '../assets/images/notCompleted.png';
-import completedImage from '../assets/images/completed.png';
-import chevronLeft from '../assets/svg/chevron-left.svg';
-import chevronRight from '../assets/svg/chevron-right.svg';
+import { levelData } from '../../data/level_data';
+import Button from '../common/Button';
+import notCompletedImage from '../../assets/images/notCompleted.png';
+import completedImage from '../../assets/images/completed.png';
+import chevronLeft from '../../assets/svg/chevron-left.svg';
+import chevronRight from '../../assets/svg/chevron-right.svg';
 
 const Level = ({ onSelectBattle }) => {
     const [shownLevel, setShownLevel] = useState(0);

@@ -1,10 +1,9 @@
-// src/utils/localStorage.js
-
-const GAME_DATA_KEY = 'developer_battle_data';
+import { STORAGE_KEY } from './constants';
 
 /**
  * Saves game data to local storage
  * @param {Object} gameData - The game data to save
+ * @returns {boolean} Success status
  */
 export const saveGameData = (gameData) => {
     try {
@@ -12,15 +11,17 @@ export const saveGameData = (gameData) => {
         console.log('Saving game data:', gameData);
 
         const serializedData = JSON.stringify(gameData);
-        localStorage.setItem(GAME_DATA_KEY, serializedData);
+        localStorage.setItem(STORAGE_KEY, serializedData);
 
         // Verify data was saved correctly
-        const savedData = localStorage.getItem(GAME_DATA_KEY);
+        const savedData = localStorage.getItem(STORAGE_KEY);
         console.log('Verification - Data in localStorage:', savedData);
 
         console.log('Game data saved successfully');
+        return true;
     } catch (error) {
         console.error('Failed to save game data:', error);
+        return false;
     }
 };
 
@@ -30,7 +31,7 @@ export const saveGameData = (gameData) => {
  */
 export const loadGameData = () => {
     try {
-        const serializedData = localStorage.getItem(GAME_DATA_KEY);
+        const serializedData = localStorage.getItem(STORAGE_KEY);
         console.log('Loading data from localStorage:', serializedData);
 
         if (!serializedData) {
@@ -44,19 +45,30 @@ export const loadGameData = () => {
     } catch (error) {
         console.error('Failed to load game data:', error);
         // Clear potentially corrupted data
-        localStorage.removeItem(GAME_DATA_KEY);
+        localStorage.removeItem(STORAGE_KEY);
         return null;
     }
 };
 
 /**
  * Clears game data from local storage
+ * @returns {boolean} Success status
  */
 export const clearGameData = () => {
     try {
-        localStorage.removeItem(GAME_DATA_KEY);
+        localStorage.removeItem(STORAGE_KEY);
         console.log('Game data cleared');
+        return true;
     } catch (error) {
         console.error('Failed to clear game data:', error);
+        return false;
     }
+};
+
+/**
+ * Checks if game data exists in local storage
+ * @returns {boolean} True if game data exists
+ */
+export const hasGameData = () => {
+    return localStorage.getItem(STORAGE_KEY) !== null;
 };

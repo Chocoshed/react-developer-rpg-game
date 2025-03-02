@@ -1,6 +1,5 @@
-// src/components/PlayerForm.jsx
 import React, { useState, useContext } from 'react';
-import { GameContext } from '../contexts/GameContext';
+import { GameContext } from '../../contexts/GameContext';
 
 const PlayerForm = ({ onSubmitSuccess }) => {
     const { gameState, setPlayerPseudo } = useContext(GameContext);

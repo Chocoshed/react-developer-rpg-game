@@ -1,4 +1,3 @@
-// src/contexts/GameContext.jsx
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { saveGameData, loadGameData, clearGameData } from '../utils/localStorage';
 

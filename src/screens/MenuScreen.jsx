@@ -1,6 +1,5 @@
-// src/screens/MenuScreen.jsx
 import React, { useContext } from 'react';
-import Level from '../components/Level';
+import Level from '../components/level/Level';
 import { GameContext } from '../contexts/GameContext';
 
 const MenuScreen = ({ onSelectLevel }) => {

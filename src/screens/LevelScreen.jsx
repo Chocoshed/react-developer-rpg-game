@@ -1,9 +1,8 @@
-// src/screens/LevelScreen.jsx
 import React, { useEffect, useState } from 'react';
 import { levelData } from '../data/level_data';
 import Button from '../components/common/Button';
-import EnemyProfile from '../components/EnemyProfile';
-import DevTool from '../components/DevTool';
+import EnemyProfile from '../components/level/EnemyProfile';
+import DevTool from '../components/level/DevTool';
 
 const LevelScreen = ({ levelIndex, onBack, onStartBattle }) => {
     const [currentLevel, setCurrentLevel] = useState(null);

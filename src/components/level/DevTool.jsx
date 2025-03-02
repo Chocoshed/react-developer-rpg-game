@@ -10,8 +10,6 @@ const DevTool = ({ currentLevel }) => {
             return imagePath;
         }
 
-        // Si le chemin commence par '/', on retire le premier caractère
-        // car les assets importés doivent être relatifs dans Vite
         if (imagePath.startsWith('/')) {
             return imagePath.substring(1);
         }

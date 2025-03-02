@@ -11,7 +11,7 @@ export const GameProvider = ({ children }) => {
         playerHP: 20,
         actualLevel: 1,
         lastLevelPlayed: null,
-        completedLevels: [],
+        completedLevels: [], // Stocke les IDs des niveaux complétés
     });
 
     // Flag to prevent saving during initial load
@@ -71,6 +71,27 @@ export const GameProvider = ({ children }) => {
         }));
     }, []);
 
+    // Nouvelle fonction pour marquer un niveau comme complété
+    const completeLevel = useCallback((levelIndex) => {
+        console.log('Marking level as completed:', levelIndex);
+        setGameState(prevState => {
+            // Vérifier si le niveau est déjà dans les niveaux complétés
+            if (prevState.completedLevels.includes(levelIndex)) {
+                return prevState; // Aucun changement si déjà complété
+            }
+
+            // Ajouter le niveau aux niveaux complétés
+            const newCompletedLevels = [...prevState.completedLevels, levelIndex];
+
+            return {
+                ...prevState,
+                completedLevels: newCompletedLevels,
+                // Mettre à jour le niveau actuel si nécessaire
+                actualLevel: Math.max(prevState.actualLevel, levelIndex + 1)
+            };
+        });
+    }, []);
+
     const resetGame = useCallback(() => {
         console.log('Resetting game data');
         clearGameData();
@@ -89,6 +110,7 @@ export const GameProvider = ({ children }) => {
         startGame,
         updateLevel,
         setPlayerPseudo,
+        completeLevel, // Exposer la nouvelle fonction
         resetGame
     };
 

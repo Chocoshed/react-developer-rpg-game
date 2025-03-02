@@ -2,14 +2,14 @@ import React from 'react';
 
 /**
  * Composant pour afficher le journal de combat
- * Montre les actions récentes du combat
+ * Montre les actions du combat
  */
-const BattleLog = ({ logs = [] }) => {
-    // Limiter le nombre de logs affichés (les plus récents)
-    const displayLogs = logs.slice(-4);
+const BattleLog = ({ logs = [], maxDisplay = 0, className = '' }) => {
+    // Si maxDisplay est défini et supérieur à 0, limiter le nombre d'entrées affichées
+    const displayLogs = maxDisplay > 0 ? logs.slice(-maxDisplay) : logs;
 
     return (
-        <div className="battle-log">
+        <div className={`battle-log ${className}`}>
             <h3>Journal de combat</h3>
             <div className="log-container">
                 {displayLogs.length === 0 ? (

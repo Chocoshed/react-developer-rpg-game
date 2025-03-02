@@ -5,7 +5,6 @@ import { devToolsData } from './devTools_data';
 const levelData = [
     {
         level: 1,
-        isCompleted: false,
         enemyId: "desorganisateur_chaotique",
         enemyData: enemyData.desorganisateur_chaotique,
         devToolId: 'html',
@@ -13,7 +12,6 @@ const levelData = [
     },
     {
         level: 2,
-        isCompleted: false,
         enemy: "Le grand méchant loup",
         enemyId: "desorganisateur_chaotique",
         enemyData: enemyData.desorganisateur_chaotique,
@@ -22,7 +20,6 @@ const levelData = [
     },
     {
         level: 3,
-        isCompleted: false,
         enemy: "Le dragon",
         enemyId: "desorganisateur_chaotique",
         enemyData: enemyData.desorganisateur_chaotique,
@@ -31,7 +28,6 @@ const levelData = [
     },
     {
         level: 4,
-        isCompleted: false,
         enemy: "Le boss final",
     }
 ]

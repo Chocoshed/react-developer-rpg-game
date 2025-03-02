@@ -13,12 +13,25 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
     const [battleState, setBattleState] = useState({
         playerHP: playerData.playerHP || 20,
         enemyHP: enemyData.hp,
-        logs: ['Le combat commence!'],
-        lastAction: null, // Nouvel état pour suivre la dernière action
+        lastAction: null,
+        actions: ['Le combat commence!'], // Nouveau tableau pour stocker toutes les actions
         turn: 1,
         isEnded: false,
         winner: null
     });
+
+    // Effet pour initialiser le combat avec les données du joueur et de l'ennemi
+    useEffect(() => {
+        setBattleState({
+            playerHP: playerData.playerHP || 20,
+            enemyHP: enemyData.hp,
+            lastAction: null,
+            actions: ['Le combat commence!'],
+            turn: 1,
+            isEnded: false,
+            winner: null
+        });
+    }, [playerData.playerHP, enemyData.hp]);
 
     // Calculer les dégâts en fonction du type d'attaque
     const calculateDamage = (attackType) => {
@@ -61,22 +74,20 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
         // Créer le message pour cette action
         const actionMessage = `${playerData.playerPseudo} utilise ${attackName} et inflige ${damage} points de dégâts!`;
 
-        // Créer les logs
-        let newLogs = [
-            ...battleState.logs,
-            actionMessage
-        ];
+        // Créer un tableau mis à jour avec toutes les actions
+        const updatedActions = [...battleState.actions, actionMessage];
 
+        // Ajouter un message de victoire si l'ennemi est vaincu
         if (enemyDefeated) {
-            newLogs.push(`${enemyData.name} a été vaincu!`);
+            updatedActions.push(`${enemyData.name} a été vaincu!`);
         }
 
         // Mettre à jour l'état
         setBattleState({
             ...battleState,
             enemyHP: newEnemyHP,
-            logs: newLogs,
-            lastAction: actionMessage, // Stocker la dernière action
+            lastAction: actionMessage,
+            actions: updatedActions,
             turn: battleState.turn + 1,
             isEnded: enemyDefeated,
             winner: enemyDefeated ? 'player' : null
@@ -88,28 +99,9 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
         };
     };
 
-    // Fonction pour réinitialiser le combat
-    const resetBattle = () => {
-        setBattleState({
-            playerHP: playerData.playerHP || 20,
-            enemyHP: enemyData.hp,
-            logs: ['Le combat recommence!'],
-            lastAction: null,
-            turn: 1,
-            isEnded: false,
-            winner: null
-        });
-    };
-
-    // Effets lorsque les données du joueur ou de l'ennemi changent
-    useEffect(() => {
-        resetBattle();
-    }, [playerData, enemyData]);
-
     return {
         battleState,
-        playerAttack,
-        resetBattle
+        playerAttack
     };
 };
 

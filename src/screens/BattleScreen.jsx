@@ -3,39 +3,42 @@ import { levelData } from '../data/level_data';
 import { GameContext } from '../contexts/GameContext';
 import HealthBar from '../components/battle/HealthBar';
 import ActionsMenu from '../components/battle/ActionsMenu';
-import BattleLog from '../components/battle/BattleLog';
 import LastAction from '../components/battle/LastAction';
+import BattleLog from '../components/battle/BattleLog';
 import useBattleLogic from '../utils/hooks/useBattleLogic';
 
 const BattleScreen = ({ levelIndex, onBack }) => {
+    // Tous les hooks en haut du composant
     const [currentLevel, setCurrentLevel] = useState(null);
-    const { gameState } = useContext(GameContext);
+    const { gameState, completeLevel } = useContext(GameContext);
+    const [victoryProcessed, setVictoryProcessed] = useState(false);
+
+    // Nous n'avons plus besoin de gérer manuellement les logs puisqu'ils sont dans battleState.actions
+
+    // État pour contrôler l'affichage de l'écran de victoire
+    const [showVictoryScreen, setShowVictoryScreen] = useState(false);
+
     const enemyRef = useRef(null);
 
-    // Définitions des valeurs par défaut pour éviter les erreurs
-    const defaultEnemy = { hp: 10, name: "Ennemi" };
-    const defaultDevTool = {
+    // Définitions des valeurs par défaut
+    const [enemy, setEnemy] = useState({ hp: 10, name: "Ennemi" });
+    const [devTool, setDevTool] = useState({
         normalAttack: { name: "Attaque", damage: 1, description: "Attaque standard" }
-    };
+    });
 
-    // État local pour les données de combat, initialisé avec des valeurs par défaut
-    const [enemy, setEnemy] = useState(defaultEnemy);
-    const [devTool, setDevTool] = useState(defaultDevTool);
-
-    // Utiliser le hook de logique de combat - toujours appelé au même endroit
-    const { battleState, playerAttack, resetBattle } = useBattleLogic(
+    // Logique de combat
+    const { battleState, playerAttack } = useBattleLogic(
         gameState,
         enemy,
         devTool
     );
 
+    // Charger les données du niveau
     useEffect(() => {
-        // Charger les données du niveau sélectionné
         if (levelIndex !== null && levelData[levelIndex]) {
             const level = levelData[levelIndex];
             setCurrentLevel(level);
 
-            // Mettre à jour les données de l'ennemi et de l'outil
             if (level.enemyData) {
                 setEnemy(level.enemyData);
             }
@@ -43,19 +46,41 @@ const BattleScreen = ({ levelIndex, onBack }) => {
             if (level.devToolData) {
                 setDevTool(level.devToolData);
             }
+
+            // Réinitialiser les états
+            setVictoryProcessed(false);
+            setShowVictoryScreen(false);
         }
     }, [levelIndex]);
 
+    // Vérifier la fin du combat et afficher l'écran de victoire
+    useEffect(() => {
+        // Si les PV de l'ennemi sont à 0 ou moins et la victoire n'est pas encore traitée
+        if (battleState.enemyHP <= 0 && battleState.isEnded && battleState.winner === 'player') {
+
+            // Marquer le niveau comme complété
+            if (!victoryProcessed) {
+                completeLevel(levelIndex);
+                setVictoryProcessed(true);
+                console.log(`Niveau ${levelIndex} marqué comme complété !`);
+
+                // Délai court avant d'afficher l'écran de victoire pour laisser le temps aux animations
+                setTimeout(() => {
+                    setShowVictoryScreen(true);
+                }, 500);
+            }
+        }
+    }, [battleState.enemyHP, battleState.isEnded, battleState.winner, completeLevel, levelIndex, victoryProcessed]);
+
     // Gestionnaire pour l'action d'attaque
     const handleAttack = (attackType) => {
-        // Exécuter l'attaque
+        if (showVictoryScreen) return;
+
         const result = playerAttack(attackType);
 
-        // Ajouter une animation de dégâts à l'ennemi
         if (enemyRef.current && result) {
             enemyRef.current.classList.add('damage-animation');
 
-            // Retirer la classe après l'animation
             setTimeout(() => {
                 if (enemyRef.current) {
                     enemyRef.current.classList.remove('damage-animation');
@@ -74,8 +99,13 @@ const BattleScreen = ({ levelIndex, onBack }) => {
         return <div className="battle-screen">Chargement du niveau...</div>;
     }
 
-    // Afficher un message de victoire si le combat est terminé
-    if (battleState.isEnded && battleState.winner === 'player') {
+    // Afficher l'écran de victoire
+    if (showVictoryScreen) {
+        const isAlreadyCompleted = gameState.completedLevels.filter(lvl => lvl === levelIndex).length > 1;
+        const completionMessage = isAlreadyCompleted
+            ? "Vous avez déjà complété ce niveau auparavant !"
+            : "Niveau complété ! Vous avez débloqué le niveau suivant !";
+
         return (
             <div className="battle-screen">
                 <header>
@@ -85,14 +115,9 @@ const BattleScreen = ({ levelIndex, onBack }) => {
                 <div className="battle-content victory-screen">
                     <h3>Victoire !</h3>
                     <p>Vous avez vaincu {enemy.name} !</p>
+                    <p className="completion-message">{completionMessage}</p>
 
-                    {/* Afficher le journal de combat UNIQUEMENT à la fin */}
-                    <div className="battle-log">
-                        <h4>Journal de combat :</h4>
-                        {battleState.logs.map((log, index) => (
-                            <p key={index} className="log-entry">{log}</p>
-                        ))}
-                    </div>
+                    <BattleLog logs={battleState.actions} className="victory-battle-log" />
 
                     <button
                         onClick={onBack}
@@ -111,6 +136,7 @@ const BattleScreen = ({ levelIndex, onBack }) => {
         );
     }
 
+    // Afficher l'écran de combat normal
     return (
         <div className="battle-screen">
             <header>
@@ -118,9 +144,7 @@ const BattleScreen = ({ levelIndex, onBack }) => {
             </header>
 
             <div className="battle-content">
-                {/* Zone d'affichage des combattants */}
                 <div className="combat-area">
-                    {/* Côté ennemi */}
                     <div className="enemy-side">
                         <p className="enemy-name">{enemy.name}</p>
                         <div className="battle-enemy-profile">
@@ -136,7 +160,6 @@ const BattleScreen = ({ levelIndex, onBack }) => {
                         </div>
                     </div>
 
-                    {/* Côté joueur */}
                     <div className="player-side">
                         <p className="player-name">{gameState.playerPseudo}</p>
                         <div className="battle-player-profile">
@@ -145,17 +168,13 @@ const BattleScreen = ({ levelIndex, onBack }) => {
                                 maxHP={gameState.playerHP}
                                 name={gameState.playerPseudo}
                             />
-                            {/* Image du joueur ou de l'arme pourrait être ajoutée ici */}
                         </div>
                     </div>
                 </div>
 
-                {/* Le journal de combat n'est plus affiché pendant le combat */}
-                {/* À la place, on affiche uniquement la dernière action */}
                 <LastAction message={battleState.lastAction} />
             </div>
 
-            {/* Menu d'actions */}
             <div className="battle-actions">
                 <ActionsMenu
                     onAttack={handleAttack}

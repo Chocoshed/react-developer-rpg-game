@@ -78,7 +78,10 @@ export const GameProvider = ({ children }) => {
         setGameState({
             level: 1,
             playerPseudo: '',
-            isGameStarted: false
+            playerHP: 20,
+            actualLevel: 1,
+            lastLevelPlayed: null,
+            completedLevels: []
         });
     }, []);
 

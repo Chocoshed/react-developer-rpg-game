@@ -1,15 +1,14 @@
+// src/screens/LevelScreen.jsx
 import React, { useEffect, useState } from 'react';
 import { levelData } from '../data/level_data';
 import Button from '../components/common/Button';
 import EnemyProfile from '../components/EnemyProfile';
 import DevTool from '../components/DevTool';
-import BattleScreen from './BattleScreen';
 
-const LevelScreen = ({ levelIndex, onBack }) => {
+const LevelScreen = ({ levelIndex, onBack, onStartBattle }) => {
     const [currentLevel, setCurrentLevel] = useState(null);
     const screens = ['enemy', 'util'];
     const [actifScreenIndex, setActifScreenIndex] = useState(0);
-    const [startBattle, setStartBattle] = useState(false);
 
     const handleNextScreen = () => {
         if (actifScreenIndex < screens.length - 1) {
@@ -23,10 +22,6 @@ const LevelScreen = ({ levelIndex, onBack }) => {
         }
     };
 
-    const handleStartBattle = () => {
-        setStartBattle(true);
-    };
-
     useEffect(() => {
         // Charger les données du niveau sélectionné
         if (levelIndex !== null && levelData[levelIndex]) {
@@ -37,11 +32,6 @@ const LevelScreen = ({ levelIndex, onBack }) => {
     // Si les données du niveau ne sont pas encore chargées
     if (!currentLevel) {
         return <div>Chargement du niveau...</div>;
-    }
-
-    // Si la bataille a commencé, afficher l'écran de bataille
-    if (startBattle) {
-        return <BattleScreen levelIndex={levelIndex} onBack={onBack} />;
     }
 
     // Vérifier si on est à la dernière fenêtre
@@ -72,7 +62,7 @@ const LevelScreen = ({ levelIndex, onBack }) => {
 
                 {/* Afficher "Suivant" ou "Combattre" selon la position */}
                 {isLastScreen ? (
-                    <Button onClick={handleStartBattle}>
+                    <Button onClick={onStartBattle}>
                         Combattre
                     </Button>
                 ) : (

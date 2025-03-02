@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
 
-const PlayerForm = () => {
+const PlayerForm = ({ onSubmitSuccess }) => {
     const { gameState, setPlayerPseudo } = useContext(GameContext);
     const [inputPseudo, setInputPseudo] = useState(gameState.playerPseudo || '');
 
@@ -13,6 +13,10 @@ const PlayerForm = () => {
             console.log('Setting player pseudo to:', inputPseudo.trim());
             setPlayerPseudo(inputPseudo.trim());
 
+            // Appeler le callback de succès pour passer à l'écran suivant
+            if (onSubmitSuccess) {
+                onSubmitSuccess();
+            }
         } else {
             alert('Veuillez entrer un nom de développeur');
         }

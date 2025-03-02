@@ -1,35 +1,31 @@
-// src/components/screens/TitleScreen.jsx
-import React, { useState, useContext } from 'react';
+// src/screens/TitleScreen.jsx
+import React, { useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
 import PlayerForm from '../components/PlayerForm';
-import MenuScreen from './MenuScreen'; // Assurez-vous que ce composant existe
 
-const TitleScreen = () => {
+const TitleScreen = ({ onStart }) => {
     const { gameState } = useContext(GameContext);
-    const [startGame, setStartGame] = useState(false);
 
     const handleStartGame = () => {
-        setStartGame(true);
+        if (gameState.playerPseudo) {
+            onStart();
+        }
     };
 
-    if (startGame) { 
-        return <MenuScreen />;
-    }
-
     return (
-        <div className="screen-title" onClick={handleStartGame}>
+        <div className="screen-title" onClick={gameState.playerPseudo ? handleStartGame : null}>
             <div>
                 <h1>Developper Battle</h1>
                 {gameState.playerPseudo ? (
                     <div>
                         <p>Joueur : {gameState.playerPseudo} !</p>
                         <p>Niveau actuel : {gameState.level}</p>
-                        <p class="info">
+                        <p className="info">
                             Appuyer pour continuer !
                         </p>
                     </div>
                 ) : (
-                    <PlayerForm />
+                    <PlayerForm onSubmitSuccess={onStart} />
                 )}
             </div>
         </div>

@@ -26,10 +26,12 @@ const enemyProfile = ({ currentLevel }) => {
                             <div className="pixel-corners">
                                 <div className="info">
                                     <h3>{enemy.name}</h3>
-                                    <img
-                                        src={getImagePath(enemy.image)}
-                                        alt={enemy.name}
-                                    />
+                                    <div className="image">
+                                        <img
+                                            src={getImagePath(enemy.image)}
+                                            alt={enemy.name}
+                                        />
+                                    </div>
                                     <p className="weakness"><span>Faiblesse </span>: {enemy.weakness}</p>
                                     <p className="description">{enemy.description}</p>
                                 </div>

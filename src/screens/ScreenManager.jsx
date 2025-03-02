@@ -1,4 +1,3 @@
-// src/components/screens/ScreenManager.jsx
 import React, { useState, useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
 import TitleScreen from './TitleScreen';
@@ -52,6 +51,11 @@ const ScreenManager = () => {
         }
     };
 
+    // Nouvelle fonction pour revenir directement au menu
+    const goToMenu = () => {
+        navigateTo(SCREENS.MENU);
+    };
+
     // Rendu conditionnel basé sur l'écran actuel
     const renderScreen = () => {
         switch (currentScreen) {
@@ -80,6 +84,7 @@ const ScreenManager = () => {
                     <BattleScreen
                         levelIndex={screenData.levelIndex}
                         onBack={goBack}
+                        onReturnToMenu={goToMenu} // Nouvelle prop pour aller directement au menu
                     />
                 );
             default:

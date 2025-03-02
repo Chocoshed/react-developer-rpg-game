@@ -7,13 +7,11 @@ import LastAction from '../components/battle/LastAction';
 import BattleLog from '../components/battle/BattleLog';
 import useBattleLogic from '../utils/hooks/useBattleLogic';
 
-const BattleScreen = ({ levelIndex, onBack }) => {
+const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
     // Tous les hooks en haut du composant
     const [currentLevel, setCurrentLevel] = useState(null);
     const { gameState, completeLevel } = useContext(GameContext);
     const [victoryProcessed, setVictoryProcessed] = useState(false);
-
-    // Nous n'avons plus besoin de gérer manuellement les logs puisqu'ils sont dans battleState.actions
 
     // État pour contrôler l'affichage de l'écran de victoire
     const [showVictoryScreen, setShowVictoryScreen] = useState(false);
@@ -91,7 +89,7 @@ const BattleScreen = ({ levelIndex, onBack }) => {
 
     // Gestionnaire pour l'action de fuite
     const handleFlee = () => {
-        onBack();
+        onReturnToMenu(); 
     };
 
     // Afficher un message de chargement si les données du niveau ne sont pas encore chargées
@@ -120,7 +118,7 @@ const BattleScreen = ({ levelIndex, onBack }) => {
                     <BattleLog logs={battleState.actions} className="victory-battle-log" />
 
                     <button
-                        onClick={onBack}
+                        onClick={onReturnToMenu} 
                         className="action-button"
                         style={{
                             marginTop: '20px',

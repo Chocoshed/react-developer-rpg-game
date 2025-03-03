@@ -335,3 +335,77 @@
     background-color: #9b59b6;
     color: white;
 }
+
+/* Style for disabled buttons */
+.action-button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Style for the defeat screen */
+.defeat-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.defeat-screen h3 {
+    color: #e74c3c;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.defeat-battle-log {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* Enemy attack animation */
+@keyframes enemyAttack {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(-15px);
+    }
+
+    30% {
+        transform: translateX(10px);
+    }
+
+    50% {
+        transform: translateX(-5px);
+    }
+
+    70% {
+        transform: translateX(15px);
+    }
+
+    90% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.enemy-attacking {
+    animation: enemyAttack 0.6s ease-in-out;
+}
+
+.enemy-side img {
+    transition: filter 0.2s;
+}
+
+.enemy-attacking img {
+    filter: brightness(1.2) contrast(1.1);
+}

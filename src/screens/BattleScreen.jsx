@@ -18,6 +18,7 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
     const [showVictoryScreen, setShowVictoryScreen] = useState(false);
 
     const enemyRef = useRef(null);
+    const enemyImageRef = useRef(null);
 
     // Définitions des valeurs par défaut
     const [enemy, setEnemy] = useState({ hp: 10, name: "Ennemi" });
@@ -55,21 +56,34 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
     // Vérifier la fin du combat et afficher l'écran de victoire
     useEffect(() => {
         // Si les PV de l'ennemi sont à 0 ou moins et la victoire n'est pas encore traitée
-        if (battleState.enemyHP <= 0 && battleState.isEnded && battleState.winner === 'player') {
+        if (battleState.isEnded && battleState.winner === 'player' && !victoryProcessed) {
+            completeLevel(levelIndex);
+            setVictoryProcessed(true);
+            console.log(`Niveau ${levelIndex} marqué comme complété !`);
 
-            // Marquer le niveau comme complété
-            if (!victoryProcessed) {
-                completeLevel(levelIndex);
-                setVictoryProcessed(true);
-                console.log(`Niveau ${levelIndex} marqué comme complété !`);
+            // Délai court avant d'afficher l'écran de victoire pour laisser le temps aux animations
+            setTimeout(() => {
+                setShowVictoryScreen(true);
+            }, 500);
+        }
+    }, [battleState.isEnded, battleState.winner, completeLevel, levelIndex, victoryProcessed]);
 
-                // Délai court avant d'afficher l'écran de victoire pour laisser le temps aux animations
-                setTimeout(() => {
-                    setShowVictoryScreen(true);
-                }, 500);
+    // Use enemy attacking flag from battle state to change image
+    useEffect(() => {
+        if (enemy && enemyRef.current && enemyImageRef.current) {
+            // Change to attack image when enemy is attacking
+            enemyImageRef.current.src = battleState.enemyAttacking
+                ? enemy.imageAttack || enemy.image
+                : enemy.image;
+
+            // Add animation class to shake the enemy a bit
+            if (battleState.enemyAttacking) {
+                enemyRef.current.classList.add('enemy-attacking');
+            } else {
+                enemyRef.current.classList.remove('enemy-attacking');
             }
         }
-    }, [battleState.enemyHP, battleState.isEnded, battleState.winner, completeLevel, levelIndex, victoryProcessed]);
+    }, [battleState.enemyAttacking, enemy]);
 
     // Gestionnaire pour l'action d'attaque
     const handleAttack = (attackType) => {
@@ -132,6 +146,32 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
         );
     }
 
+    if (battleState.isEnded && battleState.winner === 'enemy') {
+        return (
+            <div className="battle-screen">
+                <div className="battle-content defeat-screen">
+                    <h3>Défaite !</h3>
+                    <p>Vous avez été vaincu par {enemy.name} !</p>
+
+                    <BattleLog logs={battleState.actions} className="defeat-battle-log" />
+
+                    <button
+                        onClick={onReturnToMenu}
+                        className="action-button"
+                        style={{
+                            marginTop: '20px',
+                            padding: '10px 20px',
+                            backgroundColor: '#e74c3c',
+                            color: 'white'
+                        }}
+                    >
+                        Retour au menu
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     // Afficher l'écran de combat normal
     return (
         <div className="battle-screen">
@@ -154,6 +194,10 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
                                 maxEnergy={battleState.maxEnergy}
                             />
                         </div>
+                            {/* Image pour illustrer, qui sera modifier ulterieurement */}
+                        {/* <div>
+                            <img src={enemy.image} alt={enemy.name} />
+                        </div> */}
                     </div>
                     <div className="enemy-side">
                         <p className="enemy-name">{enemy.name}</p>
@@ -165,8 +209,12 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
                                 isEnemy={true}
                             />
                           
-                            <div ref={enemyRef}>
-                                <img src={enemy.image} alt={enemy.name} />
+                            <div ref={enemyRef} className={battleState.enemyAttacking ? 'enemy-attacking' : ''}>
+                                <img
+                                    ref={enemyImageRef}
+                                    src={enemy.image}
+                                    alt={enemy.name}
+                                />
                             </div>
                         </div>
                     </div>
@@ -182,10 +230,13 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
                     onFlee={handleFlee}
                     devTool={devTool}
                     currentEnergy={battleState.playerEnergy}
+                    playerCanAct={battleState.playerCanAct}
                 />
             </div>
         </div>
     );
 };
+
+
 
 export default BattleScreen;

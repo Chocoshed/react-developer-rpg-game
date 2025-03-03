@@ -10,7 +10,7 @@ export const GameProvider = ({ children }) => {
         playerPseudo: '',
         playerHP: 20,
         maxEnergy: 6,
-        actualLevel: 1,
+        actualLevel: 0,
         lastLevelPlayed: null,
         completedLevels: [], // Stocke les IDs des niveaux complétés
     });
@@ -88,7 +88,7 @@ export const GameProvider = ({ children }) => {
                 ...prevState,
                 completedLevels: newCompletedLevels,
                 // Mettre à jour le niveau actuel si nécessaire
-                actualLevel: Math.max(prevState.actualLevel, levelIndex + 1)
+                level: Math.max(prevState.level, levelIndex + 1),
             };
         });
     }, []);
@@ -97,10 +97,10 @@ export const GameProvider = ({ children }) => {
         console.log('Resetting game data');
         clearGameData();
         setGameState({
-            level: 1,
+            level: 0,
             playerPseudo: '',
             playerHP: 20,
-            actualLevel: 1,
+            actualLevel: 0,
             lastLevelPlayed: null,
             completedLevels: []
         });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Hook personnalisé pour gérer la logique de combat
@@ -13,14 +13,17 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
     const [battleState, setBattleState] = useState({
         playerHP: playerData.playerHP || 20,
         playerEnergy: playerData.playerEnergy || 0,
+        maxEnergy: playerData.maxEnergy || 6,
         enemyHP: enemyData.hp,
         lastAction: null,
-        actions: ['Le combat commence!'], // Nouveau tableau pour stocker toutes les actions
+        actions: ['Le combat commence!'],
         turn: 1,
         isEnded: false,
-        winner: null
+        winner: null,
+        playerCanAct: true,
+        enemyAttacking: false
     });
-    
+
     // Effet pour initialiser le combat avec les données du joueur et de l'ennemi
     useEffect(() => {
         setBattleState({
@@ -32,7 +35,9 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
             actions: ['Le combat commence!'],
             turn: 1,
             isEnded: false,
-            winner: null
+            winner: null,
+            playerCanAct: true,
+            enemyAttacking: false
         });
     }, [playerData.playerHP, playerData.playerEnergy, playerData.maxEnergy, enemyData.hp]);
 
@@ -62,15 +67,54 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
         return 'Attaque';
     };
 
-    // Fonction pour gérer l'attaque du joueur
-    // Dans la fonction playerAttack, ajoutez la logique pour gérer l'énergie:
+    // Fonction pour l'attaque de l'ennemi
+    const enemyAttack = useCallback(() => {
+        // Si le combat est terminé, ne rien faire
+        if (battleState.isEnded) return;
 
+        // Set enemy attacking flag to true before attack
+        setBattleState(prevState => ({
+            ...prevState,
+            enemyAttacking: true,
+            playerCanAct: false // Make sure player can't act during animation
+        }));
+        // Wait for animation (short delay)
+        setTimeout(() => {
+            // Récupérer les dégâts de l'ennemi et son attaque
+            const damage = enemyData.damage || 1;
+            const attackName = enemyData.normalAttack?.name || "Attaque";
+
+            // Calculer les nouveaux PV du joueur
+            const newPlayerHP = Math.max(0, battleState.playerHP - damage);
+
+            // Message d'attaque
+            const actionMessage = `${enemyData.name} utilise ${attackName} et inflige ${damage} dégâts`;
+
+            // Vérifier si le joueur est vaincu
+            const isPlayerDefeated = newPlayerHP <= 0;
+            // Finish attack and update battle state
+            setBattleState(prevState => ({
+                ...prevState,
+                playerHP: newPlayerHP,
+                lastAction: actionMessage,
+                actions: [actionMessage, ...prevState.actions],
+                isEnded: isPlayerDefeated,
+                winner: isPlayerDefeated ? 'enemy' : null,
+                playerCanAct: !isPlayerDefeated, // Le joueur peut agir après l'attaque si pas vaincu
+                enemyAttacking: false // Reset animation flag
+            }));
+        }, 850 ); // Animation time for attack
+    }, [battleState.isEnded, battleState.playerHP, enemyData]);
+
+
+    // Fonction pour gérer l'attaque du joueur
     const playerAttack = (attackType) => {
-        if (battleState.isEnded) return null;
+        // Si le combat est terminé ou si le joueur ne peut pas agir, ne rien faire
+        if (battleState.isEnded || !battleState.playerCanAct) return null;
 
         // Pour les attaques spéciales, vérifier que le joueur a assez d'énergie
         if (attackType === 'special' && devToolData && devToolData.specialAttack) {
-            const requiredEnergy = devToolData.specialAttack.energyCost || 6;
+            const requiredEnergy = Number(devToolData.specialAttack.energyCost) || battleState.maxEnergy || 6;
 
             if (battleState.playerEnergy < requiredEnergy) {
                 const notEnoughEnergyMessage = `Pas assez d'énergie! (${battleState.playerEnergy}/${requiredEnergy})`;
@@ -89,17 +133,17 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
         const damage = calculateDamage(attackType);
         const newEnemyHP = Math.max(0, battleState.enemyHP - damage);
 
-        // Mettre à jour l'énergie (ajouter pour les attaques normales, réinitialiser pour les spéciales)
+        // Mettre à jour l'énergie (ajouter pour les attaques normales, déduire pour les spéciales)
         let newPlayerEnergy = battleState.playerEnergy;
         let energyMessage = '';
 
         if (attackType === 'normal' && devToolData && devToolData.normalAttack) {
-            const energyGain = devToolData.normalAttack.charge || 1;
+            const energyGain = Number(devToolData.normalAttack.charge) || 1;
             newPlayerEnergy = Math.min(battleState.maxEnergy, battleState.playerEnergy + energyGain);
             energyMessage = ` (+${energyGain} énergie)`;
         } else if (attackType === 'special' && devToolData && devToolData.specialAttack) {
-            const energyCost = devToolData.specialAttack.energyCost || 6;
-            newPlayerEnergy = battleState.playerEnergy - energyCost;
+            const energyCost = Number(devToolData.specialAttack.energyCost) || battleState.maxEnergy || 6;
+            newPlayerEnergy = Math.max(0, battleState.playerEnergy - energyCost);
             energyMessage = ` (-${energyCost} énergie)`;
         }
 
@@ -122,8 +166,17 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
             actions: [actionMessage, ...prevState.actions],
             turn: newTurn,
             isEnded: isEnemyDefeated,
-            winner: isEnemyDefeated ? 'player' : null
+            winner: isEnemyDefeated ? 'player' : null,
+            // Si l'ennemi n'est pas vaincu, le joueur ne peut pas agir jusqu'à la riposte de l'ennemi
+            playerCanAct: isEnemyDefeated
         }));
+
+        // Si l'ennemi n'est pas vaincu, déclencher sa riposte après un court délai
+        if (!isEnemyDefeated) {
+            setTimeout(() => {
+                enemyAttack();
+            }, 1000); // Délai d'1 seconde avant la riposte de l'ennemi
+        }
 
         return { damage, type: attackType };
     };

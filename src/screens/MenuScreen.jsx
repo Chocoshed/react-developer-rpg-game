@@ -8,7 +8,7 @@ const MenuScreen = ({ onSelectLevel }) => {
     return (
         <div className="screen">
             <div className="menu-header">
-                <p>{gameState.playerPseudo}</p>
+                <p>{gameState.playerPseudo}  - Nv : {gameState.level}</p>
             </div>
             <Level onSelectBattle={onSelectLevel} />
         </div>

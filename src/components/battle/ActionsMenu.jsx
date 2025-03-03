@@ -2,7 +2,7 @@ import React from 'react';
 import { useContext } from 'react';
 import { GameContext } from '../../contexts/GameContext';
 
-const ActionsMenu = ({ onAttack, onFlee, devTool, currentEnergy }) => {
+const ActionsMenu = ({ onAttack, onFlee, devTool, currentEnergy, playerCanAct = true }) => {
     const { gameState } = useContext(GameContext);
 
     // Get the current energy or use a default if not available
@@ -11,32 +11,30 @@ const ActionsMenu = ({ onAttack, onFlee, devTool, currentEnergy }) => {
 
     // Special attack energy cost
     const specialAttackCost = devTool?.specialAttack?.energyCost || maxEnergy;
-    const canUseSpecialAttack = energy >= specialAttackCost;
+    const canUseSpecialAttack = energy >= specialAttackCost && playerCanAct;
 
     return (
         <div className="actions-menu">
             <button
-                onClick={() => onAttack('normal')}
-                className="action-button attack-button"
+                onClick={() => playerCanAct && onAttack('normal')}
+                className={`action-button attack-button ${!playerCanAct ? 'disabled' : ''}`}
+                disabled={!playerCanAct}
             >
                 {devTool?.normalAttack?.name || "Attaque normale"}
-                {/* {devTool?.normalAttack?.charge && (
-                    <span className="energy-indicator">+{devTool.normalAttack.charge}</span>
-                )} */}
             </button>
 
             <button
-                onClick={() => onAttack('special')}
+                onClick={() => canUseSpecialAttack && onAttack('special')}
                 className={`action-button special-attack-button ${!canUseSpecialAttack ? 'disabled' : ''}`}
                 disabled={!canUseSpecialAttack}
             >
                 {devTool?.specialAttack?.name || "Attaque spéciale"}
-                {/* <span className="energy-indicator">-{specialAttackCost}</span> */}
             </button>
 
             <button
-                onClick={onFlee}
-                className="action-button flee-button"
+                onClick={() => playerCanAct && onFlee()}
+                className={`action-button flee-button ${!playerCanAct ? 'disabled' : ''}`}
+                disabled={!playerCanAct}
             >
                 Fuir
             </button>

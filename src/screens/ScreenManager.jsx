@@ -4,13 +4,15 @@ import TitleScreen from './TitleScreen';
 import MenuScreen from './MenuScreen';
 import LevelScreen from './LevelScreen';
 import BattleScreen from './BattleScreen';
+import IntroScreen from './IntroScreen';
 
 // Les différents types d'écrans disponibles
 export const SCREENS = {
     TITLE: 'TITLE',
     MENU: 'MENU',
     LEVEL: 'LEVEL',
-    BATTLE: 'BATTLE'
+    BATTLE: 'BATTLE',
+    INTRO: 'INTRO'
 };
 
 const ScreenManager = () => {
@@ -46,12 +48,14 @@ const ScreenManager = () => {
             case SCREENS.MENU:
                 navigateTo(SCREENS.TITLE);
                 break;
+            case SCREENS.TITLE:
+                navigateTo(SCREENS.TITLE);
             default:
                 break;
         }
     };
 
-    // Nouvelle fonction pour revenir directement au menu
+    // revenir directement au menu
     const goToMenu = () => {
         navigateTo(SCREENS.MENU);
     };
@@ -60,7 +64,12 @@ const ScreenManager = () => {
     const renderScreen = () => {
         switch (currentScreen) {
             case SCREENS.TITLE:
-                return <TitleScreen onStart={() => navigateTo(SCREENS.MENU)} />;
+                return <TitleScreen
+                    onStart={() => navigateTo(SCREENS.INTRO)}
+                    onContinue={() => navigateTo(SCREENS.MENU)}
+                />;
+            case SCREENS.INTRO:
+                return <IntroScreen onContinue={() => navigateTo(SCREENS.MENU)} />;
             case SCREENS.MENU:
                 return (
                     <MenuScreen
@@ -88,7 +97,7 @@ const ScreenManager = () => {
                     />
                 );
             default:
-                return <TitleScreen onStart={() => navigateTo(SCREENS.MENU)} />;
+                return <TitleScreen onStart={() => navigateTo(SCREENS.INTRO)} />;
         }
     };
 

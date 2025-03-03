@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
 import PlayerForm from '../components/player/PlayerForm';
 
-const TitleScreen = ({ onStart }) => {
+const TitleScreen = ({ onStart, onContinue }) => {
     const { gameState } = useContext(GameContext);
 
     const handleStartGame = () => {
         if (gameState.playerPseudo) {
-            onStart();
+            // If player already has a name, go directly to menu
+            onContinue();
         }
     };
 

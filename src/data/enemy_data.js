@@ -1,5 +1,7 @@
 import enemy1 from '../assets/images/enemy1_animated.gif';
+import enemy2 from '../assets/images/enemy2_animated.gif';
 import enemy1_attack from '../assets/images/enemy1_attack.gif';
+import enemy2_attack from '../assets/images/enemy2_attack.gif';
 
 const enemyData = {
     'desorganisateur_chaotique' : {
@@ -21,8 +23,8 @@ const enemyData = {
         hp: 10,
         damage: 8,
         xp: 10,
-        image: enemy1,
-        imageAttack: enemy1_attack,
+        image: enemy2,
+        imageAttack: enemy2_attack,
         description: "Ce personnage terne aspire toute couleur et toute élégance, plongeant l'environnement dans une esthétique monotone et ennuyeuse.",
         weakness: 'css',
         normalAttack: {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { PLAYER } from '../constants';
 
 /**
  * Hook personnalisé pour gérer la logique de combat
@@ -11,9 +12,9 @@ import { useState, useEffect, useCallback } from 'react';
 const useBattleLogic = (playerData, enemyData, devToolData) => {
     // État initial du combat
     const [battleState, setBattleState] = useState({
-        playerHP: playerData.playerHP || 20,
-        playerEnergy: playerData.playerEnergy || 0,
-        maxEnergy: playerData.maxEnergy || 6,
+        playerHP: playerData.playerHP || PLAYER.INITIAL_HP,
+        playerEnergy: playerData.playerEnergy || PLAYER.INITIAL_ENERGY,
+        maxEnergy: playerData.maxEnergy || PLAYER.MAX_ENERGY,
         enemyHP: enemyData.hp,
         lastAction: null,
         actions: ['Le combat commence!'],
@@ -27,9 +28,9 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
     // Effet pour initialiser le combat avec les données du joueur et de l'ennemi
     useEffect(() => {
         setBattleState({
-            playerHP: playerData.playerHP || 20,
-            playerEnergy: playerData.playerEnergy || 0,
-            maxEnergy: playerData.maxEnergy || 6,
+            playerHP: playerData.playerHP || PLAYER.INITIAL_HP,
+            playerEnergy: playerData.playerEnergy || PLAYER.INITIAL_ENERGY,
+            maxEnergy: playerData.maxEnergy || PLAYER.MAX_ENERGY,
             enemyHP: enemyData.hp,
             lastAction: null,
             actions: ['Le combat commence!'],

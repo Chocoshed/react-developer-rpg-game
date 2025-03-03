@@ -9,7 +9,7 @@ export const SCREENS = {
 // Constantes liées au joueur
 export const PLAYER = {
     INITIAL_HP: 20,
-    INITIAL_LEVEL: 1,
+    INITIAL_LEVEL: 0,
     INITIAL_ENERGY: 0,
     MAX_ENERGY: 6
 };
@@ -26,12 +26,11 @@ export const DEV_TYPES = {
 
 // État initial du jeu
 export const INITIAL_GAME_STATE = {
-    level: 1,
+    level: PLAYER.INITIAL_LEVEL,
     playerPseudo: '',
     playerHP: PLAYER.INITIAL_HP,
     playerEnergy: PLAYER.INITIAL_ENERGY,
     maxEnergy: PLAYER.MAX_ENERGY,
-    actualLevel: 1,
     lastLevelPlayed: null,
     completedLevels: [],
 };

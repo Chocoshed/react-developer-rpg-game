@@ -1,19 +1,12 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { saveGameData, loadGameData, clearGameData } from '../utils/localStorage';
+import { INITIAL_GAME_STATE, PLAYER } from '../utils/constants';
 
 export const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
-    // Default initial state
-    const [gameState, setGameState] = useState({
-        level: 1,
-        playerPseudo: '',
-        playerHP: 20,
-        maxEnergy: 6,
-        actualLevel: 0,
-        lastLevelPlayed: null,
-        completedLevels: [], // Stocke les IDs des niveaux complétés
-    });
+    // Use INITIAL_GAME_STATE directly from constants
+    const [gameState, setGameState] = useState(INITIAL_GAME_STATE);
 
     // Flag to prevent saving during initial load
     const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -68,7 +61,7 @@ export const GameProvider = ({ children }) => {
         console.log('Setting player pseudo to:', pseudo);
         setGameState(prevState => ({
             ...prevState,
-            playerPseudo: pseudo
+            playerPseudo: pseudo,
         }));
     }, []);
 
@@ -88,7 +81,7 @@ export const GameProvider = ({ children }) => {
                 ...prevState,
                 completedLevels: newCompletedLevels,
                 // Mettre à jour le niveau actuel si nécessaire
-                level: Math.max(prevState.level, levelIndex + 1),
+                level: Math.max(prevState.level, levelIndex + 1)
             };
         });
     }, []);
@@ -96,14 +89,7 @@ export const GameProvider = ({ children }) => {
     const resetGame = useCallback(() => {
         console.log('Resetting game data');
         clearGameData();
-        setGameState({
-            level: 0,
-            playerPseudo: '',
-            playerHP: 20,
-            actualLevel: 0,
-            lastLevelPlayed: null,
-            completedLevels: []
-        });
+        setGameState(INITIAL_GAME_STATE);  // Use constant directly
     }, []);
 
     const contextValue = {
@@ -111,7 +97,7 @@ export const GameProvider = ({ children }) => {
         startGame,
         updateLevel,
         setPlayerPseudo,
-        completeLevel, // Exposer la nouvelle fonction
+        completeLevel,
         resetGame
     };
 

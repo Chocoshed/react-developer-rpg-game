@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { levelData } from '../data/level_data';
 import { GameContext } from '../contexts/GameContext';
 import HealthBar from '../components/battle/HealthBar';
+import EnergyBar from '../components/battle/EnergyBar';
 import ActionsMenu from '../components/battle/ActionsMenu';
 import LastAction from '../components/battle/LastAction';
 import BattleLog from '../components/battle/BattleLog';
@@ -101,14 +102,11 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
     if (showVictoryScreen) {
         const isAlreadyCompleted = gameState.completedLevels.filter(lvl => lvl === levelIndex).length > 1;
         const completionMessage = isAlreadyCompleted
-            ? "Vous avez déjà complété ce niveau auparavant !"
-            : "Niveau complété ! Vous avez débloqué le niveau suivant !";
+            ? `Vous avez déjà complété le niveau ${currentLevel.level} auparavant !`
+            : `Niveau ${currentLevel.level} complété ! Vous avez débloqué le niveau suivant !`;
 
         return (
             <div className="battle-screen">
-                <header>
-                    <h2>Combat Terminé - Niveau {currentLevel.level}</h2>
-                </header>
 
                 <div className="battle-content victory-screen">
                     <h3>Victoire !</h3>
@@ -143,6 +141,20 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
 
             <div className="battle-content">
                 <div className="combat-area">
+                    <div className="player-side">
+                        <p className="player-name">{gameState.playerPseudo}</p>
+                        <div className="battle-player-profile">
+                            <HealthBar
+                                currentHP={battleState.playerHP}
+                                maxHP={gameState.playerHP}
+                                name={gameState.playerPseudo}
+                            />
+                            <EnergyBar
+                                currentEnergy={battleState.playerEnergy}
+                                maxEnergy={battleState.maxEnergy}
+                            />
+                        </div>
+                    </div>
                     <div className="enemy-side">
                         <p className="enemy-name">{enemy.name}</p>
                         <div className="battle-enemy-profile">
@@ -152,22 +164,13 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
                                 name={enemy.name}
                                 isEnemy={true}
                             />
+                          
                             <div ref={enemyRef}>
                                 <img src={enemy.image} alt={enemy.name} />
                             </div>
                         </div>
                     </div>
 
-                    <div className="player-side">
-                        <p className="player-name">{gameState.playerPseudo}</p>
-                        <div className="battle-player-profile">
-                            <HealthBar
-                                currentHP={battleState.playerHP}
-                                maxHP={gameState.playerHP}
-                                name={gameState.playerPseudo}
-                            />
-                        </div>
-                    </div>
                 </div>
 
                 <LastAction message={battleState.lastAction} />
@@ -178,6 +181,7 @@ const BattleScreen = ({ levelIndex, onBack, onReturnToMenu }) => {
                     onAttack={handleAttack}
                     onFlee={handleFlee}
                     devTool={devTool}
+                    currentEnergy={battleState.playerEnergy}
                 />
             </div>
         </div>

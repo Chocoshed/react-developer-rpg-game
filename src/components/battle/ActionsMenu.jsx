@@ -1,52 +1,45 @@
-import React, { useState } from 'react';
-import Button from '../common/Button';
+import React from 'react';
+import { useContext } from 'react';
+import { GameContext } from '../../contexts/GameContext';
 
-/**
- * Menu d'actions pour l'écran de combat
- * Affiche les actions disponibles (attaques et fuite)
- */
-const ActionsMenu = ({ onAttack, onFlee, devTool }) => {
-    // État pour le survol des attaques (pour afficher la description)
-    const [hoveredAttack, setHoveredAttack] = useState(null);
+const ActionsMenu = ({ onAttack, onFlee, devTool, currentEnergy }) => {
+    const { gameState } = useContext(GameContext);
 
-    // Vérifier si devTool existe et contient les données d'attaque
-    const hasNormalAttack = devTool && devTool.normalAttack;
-    const hasSpecialAttack = devTool && devTool.specialAttack;
+    // Get the current energy or use a default if not available
+    const energy = currentEnergy !== undefined ? currentEnergy : 0;
+    const maxEnergy = gameState.maxEnergy;
+
+    // Special attack energy cost
+    const specialAttackCost = devTool?.specialAttack?.energyCost || maxEnergy;
+    const canUseSpecialAttack = energy >= specialAttackCost;
 
     return (
         <div className="actions-menu">
-            <h3>Actions</h3>
+            <button
+                onClick={() => onAttack('normal')}
+                className="action-button attack-button"
+            >
+                {devTool?.normalAttack?.name || "Attaque normale"}
+                {/* {devTool?.normalAttack?.charge && (
+                    <span className="energy-indicator">+{devTool.normalAttack.charge}</span>
+                )} */}
+            </button>
 
-            <div className="actions-container">
-                {hasNormalAttack && (
-                    <Button
-                        onClick={() => onAttack('normal')}
-                        className="action-button attack-button"
-                        onMouseEnter={() => setHoveredAttack(devTool.normalAttack)}
-                        onMouseLeave={() => setHoveredAttack(null)}
-                    >
-                        {devTool.normalAttack.name} ({devTool.normalAttack.damage})
-                    </Button>
-                )}
+            <button
+                onClick={() => onAttack('special')}
+                className={`action-button special-attack-button ${!canUseSpecialAttack ? 'disabled' : ''}`}
+                disabled={!canUseSpecialAttack}
+            >
+                {devTool?.specialAttack?.name || "Attaque spéciale"}
+                {/* <span className="energy-indicator">-{specialAttackCost}</span> */}
+            </button>
 
-                {hasSpecialAttack && (
-                    <Button
-                        onClick={() => onAttack('special')}
-                        className="action-button special-button"
-                        onMouseEnter={() => setHoveredAttack(devTool.specialAttack)}
-                        onMouseLeave={() => setHoveredAttack(null)}
-                    >
-                        {devTool.specialAttack.name} ({devTool.specialAttack.damage})
-                    </Button>
-                )}
-
-                <Button
-                    onClick={onFlee}
-                    className="action-button flee-button"
-                >
-                    Fuir
-                </Button>
-            </div>
+            <button
+                onClick={onFlee}
+                className="action-button flee-button"
+            >
+                Fuir
+            </button>
         </div>
     );
 };

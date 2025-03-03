@@ -9,6 +9,7 @@ export const GameProvider = ({ children }) => {
         level: 1,
         playerPseudo: '',
         playerHP: 20,
+        maxEnergy: 6,
         actualLevel: 1,
         lastLevelPlayed: null,
         completedLevels: [], // Stocke les IDs des niveaux complétés

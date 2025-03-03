@@ -44,6 +44,10 @@ html {
     border: #b2ee77 6px solid;
 }
 
+.screen{
+    height: 100%;
+}
+
 /* .title-container {
     text-align: center;
     padding: 2rem;
@@ -209,7 +213,6 @@ html {
     flex-wrap: wrap;
     gap: 1rem;
     width: 100%;
-    height: 100%;
 }
 
 .battle-header{
@@ -469,10 +472,6 @@ html {
 
 /* enemy profil */
 
-.battle-enemy-profile{
-    display: flex;
-    justify-content: flex-end;
-}
 
 .combat-area .enemy-name{
     font-size: 0.7rem;

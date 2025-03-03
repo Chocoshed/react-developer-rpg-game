@@ -20,7 +20,6 @@ const HealthBar = ({ currentHP, maxHP, name, isEnemy = false }) => {
     return (
         <div className="health-display">
             <div className="health-info">
-                <span className="health-name">{name}</span>
                 <span className="health-value">{currentHP} / {maxHP} PV</span>
             </div>
 

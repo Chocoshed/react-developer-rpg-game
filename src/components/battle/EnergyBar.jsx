@@ -17,9 +17,7 @@ const EnergyBar = ({ currentEnergy, maxEnergy }) => {
                 width: '150px',
                 backgroundColor: '#333',
                 height: '10px',
-                border: '2px solid #000',
-                marginTop: '5px',
-                marginBottom: '5px'
+                border: '2px solid #000'
             }}>
                 <div className="energy-bar" style={{
                     width: `${energyPercentage}%`,

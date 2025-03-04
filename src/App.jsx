@@ -12,7 +12,7 @@ const App = () => {
     <GameProvider>
       <div className="app">
         <ScreenManager />
-        <DebugButton />
+        {/* <DebugButton /> */}
       </div>
     </GameProvider>
   );

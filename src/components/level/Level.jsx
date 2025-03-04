@@ -31,30 +31,49 @@ const Level = ({ onSelectBattle }) => {
         return gameState.completedLevels.includes(levelIndex);
     };
 
+    // Vérifier si un niveau est disponible (basé sur le niveau du joueur ET si ce n'est pas un niveau "0")
+    const isLevelAvailable = (levelIndex) => {
+        // Vérifier que le niveau n'est pas "À venir" (level = 0) et que le joueur a le niveau requis
+        return levelData[levelIndex].level !== 0 && gameState.level >= levelIndex;
+    };
+
+    // Gestion du clic sur un niveau
+    const handleLevelClick = (levelIndex) => {
+        if (isLevelAvailable(levelIndex)) {
+            onSelectBattle(levelIndex);
+        }
+    };
+
     return (
         <>
             <div className="level-selection-container">
                 <div
-                    className="level-selection"
-                    onClick={() => onSelectBattle(shownLevel)}
+                    className={`level-selection ${isLevelAvailable(shownLevel) ? '' : 'level-locked'}`}
+                    onClick={() => handleLevelClick(shownLevel)}
                 >
                     <img
                         src={isLevelCompleted(shownLevel) ? completedImage : notCompletedImage}
                         alt={isLevelCompleted(shownLevel) ? "Niveau complété" : "Niveau non complété"}
+                        style={!isLevelAvailable(shownLevel) ? { opacity: 0.5 } : {}}
                     />
-                    <h3>Niveau {levelData[shownLevel].level}</h3>
+                    <h3>
+                        {levelData[shownLevel].level === 0 ? "À venir" : `Niveau ${levelData[shownLevel].level}`}
+                    </h3>
                 </div>
 
                 {hasNextLevel && (
                     <div
-                        className="level-selection"
-                        onClick={() => onSelectBattle(shownLevel + 1)}
+                        className={`level-selection ${isLevelAvailable(shownLevel + 1) ? '' : 'level-locked'}`}
+                        onClick={() => handleLevelClick(shownLevel + 1)}
                     >
                         <img
                             src={isLevelCompleted(shownLevel + 1) ? completedImage : notCompletedImage}
                             alt={isLevelCompleted(shownLevel + 1) ? "Niveau complété" : "Niveau non complété"}
+                            style={!isLevelAvailable(shownLevel + 1) ? { opacity: 0.5 } : {}}
                         />
-                        <h3>Niveau {levelData[shownLevel + 1].level}</h3>
+                        <h3>
+                            {levelData[shownLevel + 1].level === 0 ? "À venir" : `Niveau ${levelData[shownLevel + 1].level}`}
+                        </h3>
                     </div>
                 )}
             </div>
@@ -70,7 +89,7 @@ const Level = ({ onSelectBattle }) => {
                     onClick={handleNextLevel}
                     disabled={shownLevel === levelData.length - 2}
                 >
-                    <img src={chevronRight} alt="Previous" />
+                    <img src={chevronRight} alt="Next" />
                 </Button>
             </div>
         </>

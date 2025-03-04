@@ -60,6 +60,7 @@ const ScreenManager = () => {
         navigateTo(SCREENS.MENU);
     };
 
+
     // Rendu conditionnel basé sur l'écran actuel
     const renderScreen = () => {
         switch (currentScreen) {
@@ -83,8 +84,11 @@ const ScreenManager = () => {
                     <LevelScreen
                         levelIndex={screenData.levelIndex}
                         onBack={goBack}
-                        onStartBattle={() =>
-                            navigateTo(SCREENS.BATTLE, { levelIndex: screenData.levelIndex })
+                        onStartBattle={(selectedWeapon) =>
+                            navigateTo(SCREENS.BATTLE, {
+                                levelIndex: screenData.levelIndex,
+                                selectedWeapon
+                            })
                         }
                     />
                 );
@@ -92,8 +96,9 @@ const ScreenManager = () => {
                 return (
                     <BattleScreen
                         levelIndex={screenData.levelIndex}
+                        selectedWeapon={screenData.selectedWeapon}
                         onBack={goBack}
-                        onReturnToMenu={goToMenu} // Nouvelle prop pour aller directement au menu
+                        onReturnToMenu={goToMenu}
                     />
                 );
             default:

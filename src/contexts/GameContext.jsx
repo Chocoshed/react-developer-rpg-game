@@ -14,13 +14,13 @@ export const GameProvider = ({ children }) => {
     // Load saved data when component mounts
     useEffect(() => {
         try {
-            console.log('Attempting to load saved game data');
+            // console.log('Attempting to load saved game data');
             const savedData = loadGameData();
             if (savedData) {
-                console.log('Setting game state from saved data:', savedData);
+                // console.log('Setting game state from saved data:', savedData);
                 setGameState(savedData);
             } else {
-                console.log('No saved data found, using default state');
+                // console.log('No saved data found, using default state');
             }
         } catch (error) {
             console.error('Error loading saved data:', error);
@@ -35,14 +35,14 @@ export const GameProvider = ({ children }) => {
     // Save data whenever state changes (but not during initial load)
     useEffect(() => {
         if (!isInitialLoad) {
-            console.log('Game state changed, saving:', gameState);
+            // console.log('Game state changed, saving:', gameState);
             saveGameData(gameState);
         }
     }, [gameState, isInitialLoad]);
 
     // Game state functions with useCallback to maintain consistent function references
     const startGame = useCallback(() => {
-        console.log('Starting game');
+        // console.log('Starting game');
         setGameState(prevState => ({
             ...prevState,
             isGameStarted: true
@@ -50,7 +50,7 @@ export const GameProvider = ({ children }) => {
     }, []);
 
     const updateLevel = useCallback((newLevel) => {
-        console.log('Updating level to:', newLevel);
+        // console.log('Updating level to:', newLevel);
         setGameState(prevState => ({
             ...prevState,
             level: newLevel
@@ -58,7 +58,7 @@ export const GameProvider = ({ children }) => {
     }, []);
 
     const setPlayerPseudo = useCallback((pseudo) => {
-        console.log('Setting player pseudo to:', pseudo);
+        // console.log('Setting player pseudo to:', pseudo);
         setGameState(prevState => ({
             ...prevState,
             playerPseudo: pseudo,
@@ -67,7 +67,7 @@ export const GameProvider = ({ children }) => {
 
     // Nouvelle fonction pour marquer un niveau comme complété
     const completeLevel = useCallback((levelIndex) => {
-        console.log('Marking level as completed:', levelIndex);
+        // console.log('Marking level as completed:', levelIndex);
         setGameState(prevState => {
             // Vérifier si le niveau est déjà dans les niveaux complétés
             if (prevState.completedLevels.includes(levelIndex)) {
@@ -87,7 +87,7 @@ export const GameProvider = ({ children }) => {
     }, []);
 
     const resetGame = useCallback(() => {
-        console.log('Resetting game data');
+        // console.log('Resetting game data');
         clearGameData();
         setGameState(INITIAL_GAME_STATE);  // Use constant directly
     }, []);

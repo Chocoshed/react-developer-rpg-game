@@ -44,41 +44,13 @@ html {
     border: #b2ee77 6px solid;
 }
 
+p{
+    line-height: 1.1rem;
+}
+
 .screen{
     height: 100%;
 }
-
-/* .title-container {
-    text-align: center;
-    padding: 2rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    max-width: 500px;
-} */
-
-/* .game-title {
-    font-size: 4rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
-} */
-
-/* .start-button {
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.start-button:hover {
-    background-color: #357abD;
-    transform: scale(1.05);
-} */
 
 /* Title screen */
 
@@ -111,7 +83,266 @@ html {
         }
 }
 
+/* Player Form Styles - Retro Gaming Theme */
+
+.player-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.player-form-wrapper {
+    background-color: rgba(0, 0, 64, 0.85);
+    border: 3px solid #4040ff;
+    padding: 5px;
+    box-shadow:
+        0 0 0 3px #000,
+        0 0 10px rgba(0, 200, 255, 0.5);
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.player-form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4040ff, #80c0ff, #4040ff);
+}
+
+.player-form {
+    border: 2px solid #000080;
+    background-color: #000040;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.player-form::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 2px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.form-title {
+    color: #ffcc00;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0px #000;
+    letter-spacing: 1px;
+}
+
+.form-instruction {
+    color: #00ff00;
+    font-size: 0.7em;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 1px rgba(0, 255, 0, 0.3);
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    background-color: #000;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #00aa00;
+}
+
+.input-container.focused {
+    border-color: #00ff00;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+}
+
+.input-prompt {
+    color: #00ff00;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.pixel-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7em;
+    width: 100%;
+    outline: none;
+    caret-color: transparent;
+}
+
+.pixel-input::placeholder {
+    color: #008800;
+    opacity: 0.7;
+}
+
+.input-cursor {
+    color: #00ff00;
+    margin-left: 2px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.input-cursor.blink {
+    animation: cursor-blink 1s step-end infinite;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.6em;
+    color: #aaaaaa;
+    margin-bottom: 15px;
+}
+
+.char-counter .warning {
+    color: #ffcc00;
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #ff5555;
+    font-size: 0.6em;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ff0000;
+    animation: error-flash 0.5s ease-in-out;
+}
+
+.pixel-button {
+    width: 100%;
+    background-color: #ffcc00;
+    border: none;
+    position: relative;
+    color: #000;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7em;
+    padding: 10px 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: all 0.2s;
+}
+
+.pixel-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow:
+        inset -3px -3px 0 0 #996600,
+        inset 3px 3px 0 0 #ffff00;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.pixel-button:hover {
+    background-color: #ffdd55;
+    transform: scale(1.02);
+}
+
+.pixel-button:active {
+    transform: scale(0.98);
+}
+
+.pixel-button:active::before {
+    box-shadow:
+        inset 3px 3px 0 0 #996600,
+        inset -3px -3px 0 0 #ffff00;
+}
+
+@keyframes cursor-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes error-flash {
+
+    0%,
+    100% {
+        background-color: rgba(255, 0, 0, 0.2);
+    }
+
+    50% {
+        background-color: rgba(255, 0, 0, 0.4);
+    }
+}
+
 /* MenuScreen */
+
+.menu-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-header button{
+    background-color: #ff0000;
+    border: 2px solid #000;
+    color: #000;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.5em;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #000;
+    transition: all 0.1s ease-in-out;
+}
+
+.menu-header button:hover {
+    box-shadow: 2px 2px 0 #000;
+    transform: translate(2px, 2px);
+}
+
+.menu-header button:active {
+    box-shadow: 0 0 0 #000;
+    transform: translate(4px, 4px);
+}
+
+/* Message de remerciement */
+.thank-you-message {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 3px solid #ffcc00;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thank-you-message p {
+    font-size: 0.6em;
+    line-height: 1rem;
+}
+
+.thank-you-message p:first-child {
+    color: #ffcc00;
+    font-weight: bold;
+}
 
 /* Level selection */
 .level-selection-container{
@@ -216,6 +447,71 @@ html {
     height: 20px;
     color: blue;
 }
+
+/* Add this to your CSS file that styles the levels */
+.level-locked {
+    cursor: not-allowed;
+    opacity: 0.7;
+    position: relative;
+}
+
+.level-locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #555;
+    z-index: 2;
+}
+
+/* Ajouter à la fin de votre fichier CSS */
+
+/* Weapon Selection */
+.weapons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.weapon-option {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border: 1px solid var(--info-container-border);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.weapon-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.01);
+}
+
+.weapon-option h4 {
+    color: #e7e700;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+}
+
+.weapon-option .weapon-nickname {
+    font-style: italic;
+    color: #c0c0c0;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+}
+
+.weapon-option .weapon-details {
+    font-size: 0.7rem;
+}
+
+.weapon-option.selected {
+    border: 2px solid #e7e700;
+    background-color: rgba(231, 231, 0, 0.1);
+}
+
 /* Battle screen */
 
 .battle-screen{
@@ -239,7 +535,7 @@ html {
     border: 2px solid #000;
     color: #000;
     font-family: 'Press Start 2P', cursive;
-    font-size: 0.5em;
+    font-size: 0.6em;
     padding: 10px 20px;
     text-transform: uppercase;
     cursor: pointer;
@@ -258,7 +554,11 @@ html {
 }
 
 .battle-screen .actions{
-    margin-top: 10px;
+    margin-top: 15px
+}
+
+.battle-screen .actions button{
+    margin: 0 5px 0 5px;
 }
 
 .battle-header h2{
@@ -269,7 +569,7 @@ html {
 
 .enemy-profil{
     width: 410px;
-    height: 340px;
+    height: 320px;
     background-color: var(--info-container-background);
     display: flex;
     justify-content: center;
@@ -280,7 +580,7 @@ html {
 
 .enemy-profil .info{
     background-color: var(--info-background);
-    width: 400px;
+    width: 385px;
     padding: 10px;
     color: rgb(255, 255, 255);
     height: 310px;
@@ -307,6 +607,10 @@ html {
     text-transform: uppercase;
     font-size: 0.8rem;
     margin: 6px 0;
+}
+
+.enemy-profil p {
+    margin-top: 5px;
 }
 
 .enemy-profil .weakness{

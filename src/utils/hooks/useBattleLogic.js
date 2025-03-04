@@ -104,7 +104,7 @@ const useBattleLogic = (playerData, enemyData, devToolData) => {
                 playerCanAct: !isPlayerDefeated, // Le joueur peut agir après l'attaque si pas vaincu
                 enemyAttacking: false // Reset animation flag
             }));
-        }, 850 ); // Animation time for attack
+        }, 900 ); // Animation time for attack
     }, [battleState.isEnded, battleState.playerHP, enemyData]);
 
 

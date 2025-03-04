@@ -1,9 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { GameContext } from '../../contexts/GameContext';
 
 const PlayerForm = ({ onSubmitSuccess }) => {
     const { gameState, setPlayerPseudo } = useContext(GameContext);
     const [inputPseudo, setInputPseudo] = useState(gameState.playerPseudo || '');
+    const [isFocused, setIsFocused] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showError, setShowError] = useState(false);
+
+    // Réinitialiser l'erreur lorsque l'utilisateur commence à taper
+    useEffect(() => {
+        if (inputPseudo && errorMessage) {
+            setErrorMessage('');
+            setShowError(false);
+        }
+    }, [inputPseudo]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -12,12 +23,14 @@ const PlayerForm = ({ onSubmitSuccess }) => {
 
         const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/g;
         if (specialCharacters.test(pseudo)) {
-            alert('Le nom de développeur ne doit pas contenir de caractères spéciaux.');
+            setErrorMessage('Le nom ne doit pas contenir de caractères spéciaux.');
+            setShowError(true);
             return;
         }
 
         if (pseudo.length > 15) {
-            alert('Le nom de développeur doit contenir moins de 15 caractères.');
+            setErrorMessage('Le nom doit contenir moins de 15 caractères.');
+            setShowError(true);
             return;
         }
 
@@ -29,26 +42,54 @@ const PlayerForm = ({ onSubmitSuccess }) => {
                 onSubmitSuccess();
             }
         } else {
-            alert('Veuillez entrer un nom de développeur');
+            setErrorMessage('Veuillez entrer un nom de développeur');
+            setShowError(true);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <h2>Entrez votre nom de développeur</h2>
-                <p>(Maximum 15 caractères)</p>
-                <p><span id="caracterTotal">{inputPseudo.length}</span> / 15</p>
-                <input
-                    type="text"
-                    value={inputPseudo}
-                    onChange={(e) => setInputPseudo(e.target.value)}
-                    placeholder="Votre nom de développeur"
-                />
-                <button type="submit">
-                    Commencer
-                </button>
-            </form>
+        <div className="player-form-container">
+            <div className="player-form-wrapper">
+                <form onSubmit={handleSubmit} className="player-form">
+                    <h2 className="form-title">IDENTIFICATION DEV</h2>
+
+                    <div className="form-instruction">
+                        <p>&gt; ENTREZ VOTRE NOM DE DEV</p>
+                    </div>
+
+                    <div className={`input-container ${isFocused ? 'focused' : ''}`}>
+                        <span className="input-prompt">&gt;</span>
+                        <input
+                            type="text"
+                            value={inputPseudo}
+                            onChange={(e) => setInputPseudo(e.target.value)}
+                            placeholder="VOTRE NOM"
+                            maxLength="15"
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            className="pixel-input"
+                            autoFocus
+                        />
+                        <span className={`input-cursor ${isFocused ? 'blink' : ''}`}>_</span>
+                    </div>
+
+                    <div className="char-counter">
+                        <span className={inputPseudo.length > 10 ? 'warning' : ''}>
+                            {inputPseudo.length}
+                        </span> / 15
+                    </div>
+
+                    {showError && (
+                        <div className="error-message">
+                            ! {errorMessage}
+                        </div>
+                    )}
+
+                    <button type="submit" className="pixel-button">
+                        COMMENCER L'AVENTURE
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

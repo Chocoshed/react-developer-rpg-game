@@ -28,7 +28,12 @@ const levelData = [
     },
     {
         level: 4,
-        enemy: "Le boss final",
+        enemy: "Le camoufleur obscur",
+        enemyId: "camoufleur_obscur",
+        enemyData: enemyData.camoufleur_obscur,
+    },
+    {
+        level: 0,
     }
 ]
 

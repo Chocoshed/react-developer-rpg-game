@@ -32,8 +32,13 @@ const enemyProfile = ({ currentLevel }) => {
                                             alt={enemy.name}
                                         />
                                     </div>
-                                    <p className="weakness"><span>Faiblesse </span>: {enemy.weakness}</p>
+                                    {currentLevel.devToolId && (
+                                    <p className="weakness"><span>Faiblesse </span>: {enemy.weakness}</p>)}
                                     <p className="description">{enemy.description}</p>
+                                    <h3>Caractéristiques :</h3>
+                                    <p><span>Attaque normale :</span> {enemy.normalAttack.name}</p>
+                                    <p><span>Dégâts :</span> {enemy.damage}</p>
+                                    <p>{enemy.normalAttack.description}</p>
                                 </div>
                             </div>
                         </div>

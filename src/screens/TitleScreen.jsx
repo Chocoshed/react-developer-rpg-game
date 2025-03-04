@@ -15,7 +15,7 @@ const TitleScreen = ({ onStart, onContinue }) => {
     return (
         <div className="screen-title" onClick={gameState.playerPseudo ? handleStartGame : null}>
             <div>
-                <h1>Developper Battle</h1>
+                <h1>Developer Battle</h1>
                 {gameState.playerPseudo ? (
                     <div>
                         <p>Joueur : {gameState.playerPseudo} !</p>

@@ -1,4 +1,3 @@
-// src/components/DebugButton.jsx
 import React, { useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
 import { loadGameData, clearGameData } from '../utils/localStorage';
@@ -8,7 +7,7 @@ const DebugButton = () => {
 
     const checkLocalStorage = () => {
         const data = loadGameData();
-        console.log('Current localStorage data:', data);
+        // console.log('Current localStorage data:', data);
         alert(JSON.stringify(data, null, 2));
     };
 

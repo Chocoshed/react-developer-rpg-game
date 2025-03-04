@@ -11,7 +11,9 @@ export const PLAYER = {
     INITIAL_HP: 20,
     INITIAL_LEVEL: 0,
     INITIAL_ENERGY: 0,
-    MAX_ENERGY: 6
+    MAX_ENERGY: 6,
+    DEFAULT_IMAGE: '../assets/images/player_animated.gif',
+    ATTACK_IMAGE: '../assets/images/player_attack.gif'
 };
 
 // Clé de stockage local

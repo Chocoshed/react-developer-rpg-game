@@ -7,8 +7,8 @@ const IntroScreen = ({onContinue}) => {
     const playerName = gameState.playerPseudo || 'Développeur';
 
     return (
-        <div class="screen-intro">
-            <p>Bienvenue, <span class="player-name">{playerName}</span> !</p>
+        <div className="screen-intro">
+            <p>Bienvenue, <span className="player-name">{playerName}</span> !</p>
 
             <p>
                 Dans un monde où le développement web façonne chaque recoin de la réalité, une menace invisible sème le désordre au cœur des systèmes. À travers les pixels et le code, une quête épique vous attend pour rétablir l'harmonie et devenir le plus grand développeur web de votre génération.

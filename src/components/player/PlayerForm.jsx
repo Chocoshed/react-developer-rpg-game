@@ -51,8 +51,6 @@ const PlayerForm = ({ onSubmitSuccess }) => {
         <div className="player-form-container">
             <div className="player-form-wrapper">
                 <form onSubmit={handleSubmit} className="player-form">
-                    <h2 className="form-title">IDENTIFICATION DEV</h2>
-
                     <div className="form-instruction">
                         <p>&gt; ENTREZ VOTRE NOM DE DEV</p>
                     </div>
